@@ -186,13 +186,7 @@ def main():
     else:
         df.merge(coordenadas_df.T)
 
-        # html_temp = """
-        # <div style="display:flex;margin-bottom:20px">
-        #     <div style="background-color:lightgray;width:150px;height:100px;margin-right:10px">{{df['deaths'].sum()}}</div>
-        #     <div style="background-color:lightgray;width:150px;height:100px">Teste</div>
-        # </div>
-        # """
-        # st.write(html_temp, unsafe_allow_html=True)
+        
         
         bar = alt.Chart(df).mark_bar().encode(
         alt.X('state:O',title='Estados'),
@@ -220,23 +214,133 @@ def main():
         st.write((bar + rule + text).properties(width=600, height=400))
 
         st.subheader('Números do Brasil')
-        st.text('Total de Casos Confirmados')
-        st.text(df['cases'].sum())
-        
-        st.text('Total de Suspeitas')
-        st.text(df['suspects'].sum())
-        st.text('Total de Mortes')
-        st.text(df['deaths'].sum())
+        total_casos = df['cases'].sum()
+        total_suspeitas = df['suspects'].sum()
+        total_mortes = df['deaths'].sum()
 
+        html_temp = """
+         <div style="
+            display:flex;
+            margin-bottom:20px">
+            <div style="
+                background-color:#025951;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;"
+            >
+                Total de Casos Confirmados
+                <br>
+                %d
+            </div>
+            <div style="
+                background-color:#048ABF;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;";
+            >
+                Total de Suspeitas    
+                %d
+            </div>
+            <div style="
+                background-color:#F25116;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;";
+            >
+                Total de Mortes
+                %d
+            </div>
+         </div>
+        """%(total_casos,total_suspeitas,total_mortes)
+        st.write(html_temp, unsafe_allow_html=True)
+        
+        
+        
+        
         st.subheader('Números do Estados do Brasil')
         estados = list(df['state'])
         estado = st.selectbox('Escolha o estado que deseja visualizar', estados)
-        st.text('Total de Casos Confirmados')
-        st.text(df[df['state']==estado]['cases'].sum())
-        st.text('Total de Suspeitas')
-        st.text( df[df['state']==estado]['suspects'].sum())
-        st.text('Total de Mortes')
-        st.text( df[df['state']==estado]['deaths'].sum())
+        estado_casos = df[df['state']==estado]['cases'].sum()
+        estado_suspeita = df[df['state']==estado]['suspects'].sum()
+        estado_morte = df[df['state']==estado]['deaths'].sum()
+
+        html_temp = """
+         <div style="
+            display:flex;
+            margin-bottom:20px">
+            <div style="
+                background-color:#025951;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;"
+            >
+                Total de Casos Confirmados
+                <br>
+                %d
+            </div>
+            <div style="
+                background-color:#048ABF;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;";
+            >
+                Total de Suspeitas    
+                %d
+            </div>
+            <div style="
+                background-color:#F25116;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                color:white;
+                border-radius:5px;
+                width:150px;
+                height:150px;
+                padding:10px;
+                font-size:15px;
+                margin-right:10px;";
+            >
+                Total de Mortes
+                %d
+           </div>
+        """%(estado_casos,estado_suspeita,estado_morte)
+        st.write(html_temp, unsafe_allow_html=True)
+        
 
         
     #sidebar
