@@ -3,6 +3,7 @@ import pandas as pd
 import altair as alt
 import json
 import requests
+import matplotlib.pyplot as plt
 
 headers = {'Content-Type': 'application/json'}
 def get_dados_brasil_por_data(data):
@@ -227,32 +228,40 @@ def main():
         st.text('Total de Mortes')
         st.text(df['deaths'].sum())
 
+        st.subheader('Números do Estados do Brasil')
         estados = list(df['state'])
-        st.selectbox('Escolha o estado que deseja visualizar', estados)
+        estado = st.selectbox('Escolha o estado que deseja visualizar', estados)
+        st.text('Total de Casos Confirmados')
+        st.text(df[df['state']==estado]['cases'].sum())
+        st.text('Total de Suspeitas')
+        st.text( df[df['state']==estado]['suspects'].sum())
+        st.text('Total de Mortes')
+        st.text( df[df['state']==estado]['deaths'].sum())
 
+        
     #sidebar
     dados_paises = get_dados_paises()
     dados_paises_df = pd.DataFrame(dados_paises['data'])
     paises = list(dados_paises_df['country'])
     
     st.sidebar.title('Números do Mundo')
-    st.sidebar.subheader('Total de Casos Confirmados')
+    st.sidebar.text('Total de Casos Confirmados')
     st.sidebar.text(dados_paises_df['confirmed'].sum())
-    st.sidebar.subheader('Total de Mortes')
+    st.sidebar.text('Total de Mortes')
     st.sidebar.text(dados_paises_df['deaths'].sum())
-    st.sidebar.subheader('Total de Recuperações')
+    st.sidebar.text('Total de Recuperações')
     st.sidebar.text(dados_paises_df['recovered'].sum())
 
    
     st.sidebar.title('Covid pelos Países')
     pais = st.sidebar.selectbox('Escolha o País', paises)
 
-    st.sidebar.subheader('Total de Casos Confirmados')
+    st.sidebar.text('Total de Casos Confirmados')
     st.sidebar.text(dados_paises_df[dados_paises_df['country']==pais]['confirmed'].sum())
     
-    st.sidebar.subheader('Total de Mortes')
+    st.sidebar.text('Total de Mortes')
     st.sidebar.text(dados_paises_df[dados_paises_df['country']==pais]['deaths'].sum())
-    st.sidebar.subheader('Total de Recuperações')
+    st.sidebar.text('Total de Recuperações')
     st.sidebar.text(dados_paises_df[dados_paises_df['country']==pais]['recovered'].sum())
 
 
