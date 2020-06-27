@@ -278,7 +278,7 @@ def main():
         
         
         
-        st.subheader('Números do Estados do Brasil')
+        st.subheader('Números dos Estados do Brasil')
         estados = list(df['state'])
         estado = st.selectbox('Escolha o estado que deseja visualizar', estados)
         estado_casos = df[df['state']==estado]['cases'].sum()
@@ -368,8 +368,46 @@ def main():
     st.sidebar.text('Total de Recuperações')
     st.sidebar.text(dados_paises_df[dados_paises_df['country']==pais]['recovered'].sum())
 
+   
 
+    html = """
+    <style>
+        .reportview-container {
+        flex-direction: row-reverse;
+       
+        }
+        header > .toolbar {
+            flex-direction: row-reverse;
+            left: 1rem;
+            right: auto;
+           
+        }
+        .sidebar .sidebar-collapse-control,
+        .sidebar.--collapsed .sidebar-collapse-control {
+            left: auto;
+            right: 0.5rem;
+            
+        }
 
+        .sidebar .sidebar-content {
+            transition: margin-right .3s, box-shadow .3s;
+            
+        }
+
+        .sidebar.--collapsed .sidebar-content {
+            margin-left: auto;
+            margin-right: -21rem;
+            
+        }
+
+        @media (max-width: 991.98px) {
+        .sidebar .sidebar-content {
+            margin-left: auto;
+        }
+        }
+    </style>
+    """
+    st.markdown(html, unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
